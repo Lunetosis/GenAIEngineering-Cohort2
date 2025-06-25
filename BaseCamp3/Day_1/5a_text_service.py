@@ -39,14 +39,14 @@ class TextInput(BaseModel):
 
 @app.post("/count")
 def add(text: TextInput):
-    """Add two numbers and return the result."""
+    """Count the number of words return the result."""
     result = len(text.a.split())
     return {f"length of string: {result} words"}
 
 
 @app.post("/split")
 def subtract(text: TextInput):
-    """Subtract b from a and return the result."""
+    """Split the text and return the result."""
     result = text.a.split()
     return result
 

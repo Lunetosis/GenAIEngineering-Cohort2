@@ -9,7 +9,7 @@ from pydantic import BaseModel, Field
 app = FastAPI(
     title="Calculator API",
     description="A simple calculator API with add and subtract operations",
-    version="0.2.0"
+    version="1.2.0"
 )
 
 # Define Pydantic models for request validation
