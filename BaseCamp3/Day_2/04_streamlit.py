@@ -46,7 +46,7 @@ st.write(f"You selected: {option}")
 # Radio buttons
 level = st.radio(
     "What is your programming experience level?",
-    ("Beginner", "Intermediate", "Advanced")
+    ("Beginner", "Intermediate", "Advanced", "Genius")
 )
 st.write(f"You are at the {level} level.")
 

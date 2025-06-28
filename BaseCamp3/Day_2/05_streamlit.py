@@ -80,7 +80,7 @@ with col1:
     st.image("https://via.placeholder.com/150", caption="Placeholder Image")
 with col2:
     st.write("Column 2")
-    st.metric(label="Temperature", value="70 °F", delta="1.2 °F")
+    st.metric(label="Temperature", value="70 °F", delta="-1.2 °F")
 with col3:
     st.write("Column 3")
     st.checkbox("Check me")

@@ -190,7 +190,7 @@ st.altair_chart(chart, use_container_width=True)
 # Map
 st.subheader("Map Display")
 map_data = pd.DataFrame(
-    np.random.randn(1000, 2) / [50, 50] + [37.76, -122.4],
+    np.random.randn(1000, 2) / [50, 50] + [22.3193, 114.1694],
     columns=['lat', 'lon']
 )
 st.map(map_data)

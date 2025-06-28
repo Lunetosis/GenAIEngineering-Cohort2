@@ -1,6 +1,8 @@
 # calculator.py
 # A simple calculator with add and subtract functions
-from fastapi import FastAPI
+# FastAPI is a modern, fast (high-performance), web framework for building APIs with Python 3.6+ based on standard Python type hints. Allows to run program through a web server.
+from fastapi import FastAPI 
+# uvicorn is an ASGI server implementation, using standard Python type hints. Allows to run program through a web server. Makes my box a server.
 import uvicorn
 
 app = FastAPI()
@@ -28,7 +30,6 @@ def read_root():
 # Main program
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=9321)
-
 
 '''
 import requests

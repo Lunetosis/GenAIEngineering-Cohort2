@@ -257,6 +257,13 @@ def convert_df_to_excel(df):
 
 excel = convert_df_to_excel(download_data)
 
+st.download_button(
+    label="Download as Excel",
+    data=excel,
+    file_name='sample_data.xlsx',
+    mime='text/xlsx',
+)
+
 # API Requests and Data Display
 st.header("API Requests and Server Data")
 
