@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Binary Brews</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Roboto+Mono:wght@400;700&display=swap');
+
+        :root {
+            --black: #000000;
+            --vibrant-red: #FF1744;
+            --electric-blue: #00BFFF;
+            --dark-gray: #424242;
+            --off-white: #FAFAFA;
+            --bg-color: #1A1A1A;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--off-white);
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Header & Navigation */
+        header {
+            background-color: rgba(0,0,0,0.7);
+            backdrop-filter: blur(10px);
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid var(--dark-gray);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--off-white);
+            text-decoration: none;
+        }
+
+        .logo img {
+            height: 40px;
+            width: 40px;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 2rem;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-links a {
+            color: var(--off-white);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+            position: relative;
+            padding-bottom: 5px;
+        }
+        
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: var(--electric-blue);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--electric-blue);
+        }
+        
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Hero Section */
+        #hero {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            min-height: 100vh;
+            padding-top: 80px; /* Header height */
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('taproom.png') no-repeat center center/cover;
+        }
+
+        #hero h1 {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            color: var(--off-white);
+            font-weight: 700;
+        }
+        
+        #hero h1 .highlight {
+            color: var(--vibrant-red);
+            font-family: 'Roboto Mono', monospace;
+        }
+
+        #hero p {
+            font-size: 1.25rem;
+            color: #ccc;
+            margin-bottom: 2rem;
+        }
+
+        .cta-button {
+            background-color: var(--vibrant-red);
+            color: var(--off-white);
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            display: inline-block;
+        }
+
+        .cta-button:hover {
+            background-color: #d60027; /* Darker red */
+            transform: translateY(-3px);
+        }
+
+        /* Menu Section */
+        #menu {
+            padding: 6rem 0;
+        }
+
+        #menu h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+        }
+        
+        #menu h2 .highlight {
+             color: var(--electric-blue);
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .beer-card {
+            background-color: var(--dark-gray);
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid #555;
+        }
+
+        .beer-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        .beer-card h3 {
+            font-family: 'Roboto Mono', monospace;
+            font-size: 1.5rem;
+            color: var(--vibrant-red);
+            margin-top: 0;
+            margin-bottom: 0.5rem;
+        }
+
+        .beer-card .beer-style {
+            font-size: 1rem;
+            color: var(--electric-blue);
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .beer-card p {
+            font-size: 0.9rem;
+            color: #ccc;
+            line-height: 1.6;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--black);
+            padding: 2rem 0;
+            text-align: center;
+            color: #aaa;
+            border-top: 1px solid var(--dark-gray);
+            margin-top: 4rem;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <nav>
+            <a href="#" class="logo">
+                <img src="logo.png" alt="Binary Brews Logo">
+                Binary Brews
+            </a>
+            <ul class="nav-links">
+                <li><a href="#hero">Home</a></li>
+                <li><a href="#menu">On Tap</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="hero">
+            <div class="hero-content container">
+                <h1>Crafting the <span class="highlight">Code</span> of Beer</h1>
+                <p>Where technology meets tradition in every pint.</p>
+                <a href="#menu" class="cta-button">Explore Our Taps</a>
+            </div>
+        </section>
+
+        <section id="menu" class="container">
+            <h2>Now <span class="highlight">Compiling</span>...</h2>
+            <div class="menu-grid">
+                <article class="beer-card">
+                    <h3>Firewall IPA</h3>
+                    <div class="beer-style">India Pale Ale | 6.8% ABV</div>
+                    <p>A bold and bitter brew with strong pine and citrus notes, protecting your palate from blandness.</p>
+                </article>
+                <article class="beer-card">
+                    <h3>Syntax Stout</h3>
+                    <div class="beer-style">Oatmeal Stout | 5.5% ABV</div>
+                    <p>A smooth, dark stout with hints of coffee and chocolate. Perfectly structured, no errors found.</p>
+                </article>
+                <article class="beer-card">
+                    <h3>Blue Screen Lager</h3>
+                    <div class="beer-style">Pilsner-style Lager | 4.2% ABV</div>
+                    <p>A crisp, clean, and refreshing lager that's guaranteed to reboot your senses. No fatal errors here!</p>
+                </article>
+                 <article class="beer-card">
+                    <h3>Kernel Kölsch</h3>
+                    <div class="beer-style">Kölsch | 5.0% ABV</div>
+                    <p>The core of our operation. A light, easy-drinking German-style ale with a clean, crisp finish.</p>
+                </article>
+                 <article class="beer-card">
+                    <h3>Data-Drive Dark Ale</h3>
+                    <div class="beer-style">American Dark Ale | 6.1% ABV</div>
+                    <p>A complex ale with rich, malty data points and a slightly hoppy output. The more you sip, the more you learn.</p>
+                </article>
+                 <article class="beer-card">
+                    <h3>Git Gud Gose</h3>
+                    <div class="beer-style">Leipzig-style Gose | 4.5% ABV</div>
+                    <p>A tart and salty wheat ale with a hint of coriander. Commit to a pint and push your taste boundaries.</p>
+                </article>
+            </div>
+        </section>
+
+        <section id="about" class="container" style="padding: 4rem 0; text-align: center;">
+             <h2>About <span class="highlight">01000010_B</span></h2>
+             <p style="max-width: 800px; margin: 0 auto; line-height: 1.8; color: #ccc;">Founded by a rogue team of developers and brewmasters, Binary Brews is the result of a simple query: `SELECT beer FROM passion WHERE skill IN ('brewing', 'coding');`. We believe that the precision, creativity, and collaborative spirit of software development can be applied to create exceptional craft beers. We're constantly iterating, debugging, and deploying new flavors for you to enjoy. Welcome to our taproom.</p>
+        </section>
+
+    </main>
+
+    <footer id="contact">
+        <div class="container">
+            <p>&copy; 2024 Binary Brews. All Rights Reserved.</p>
+            <p>10101 Terminal Drive, Silicon Valley, CA</p>
+            <p>sudo get-in-touch@binarybrews.io</p>
+        </div>
+    </footer>
+
+    <script>
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+
+                if(targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>
