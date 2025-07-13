@@ -78,7 +78,7 @@ def main():
                             border: 1px solid #ddd;
                             border-radius: 5px;
                             padding: 10px;
-                            background-color: #f9f9f9;
+                            background-color: #133337;
                         }
                         </style>
                         """, unsafe_allow_html=True)
