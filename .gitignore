@@ -199,3 +199,12 @@ cython_debug/
 #  refer to https://docs.cursor.com/context/ignore-files
 .cursorignore
 .cursorindexingignore
+
+#Models
+Week2/Day_1/models/*
+
+#CSV files
+*.csv
+
+#PDF files
+*.pdf
