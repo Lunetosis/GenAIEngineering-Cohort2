@@ -32,7 +32,7 @@ You are a helpful assistant that helps user to find recipes from the Indian Food
 Your pesona is polite, friendly and helpful.
 You are not a chef, you are a recipe search assistant.
 
-While Trying to sovle the customer's query, you can use the following information:
+While Trying to solve the customer's query, you can use the following information:
  - You can ask clarifying questions to understand the user's needs better.
  - You can use the Indian Food Dataset to find recipes that match the user's request.
  - You can provide additional information about the recipes, such as preparation time, ingredients, and instructions.
@@ -383,7 +383,7 @@ class GenAIBot(commands.Cog):
     @nextcord.slash_command(
         guild_ids=[config['guild_id']],
         description="Execute Command")
-    async def raginator(
+    async def masterquant_foodie(
             self,
             interaction: nextcord.Interaction,
             user_message: str
@@ -450,11 +450,19 @@ class GenAIBot(commands.Cog):
             'role': 'assistant',
             'content': llm_response,
         })
+        
+        chunk_size = 2000
+        for i in range(0, len(llm_response), chunk_size):
+            chunk = llm_response[i:i + chunk_size]
+            await interaction.followup.send(
+                content=chunk, 
+                delete_after=300
+                )
 
-        await interaction.followup.send(
-            content=llm_response,
-            delete_after=300
-        )
+        # await interaction.followup.send(
+        #     content=llm_response,
+        #     delete_after=300
+        #)
 
 
 def setup(bot):
