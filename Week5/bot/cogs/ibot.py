@@ -267,8 +267,6 @@ def search(
     Search for the given query in the vector store and return the top n results.
     """
     metadata = {}  # Empty metadata
-    subqueries = [search_query]
-
     if flag_rewrite_query:
         search_query = rewrite_query(search_query, o_client)
 
@@ -276,6 +274,7 @@ def search(
         metadata = generate_metadata(search_query, o_client)
         print(metadata)
 
+    subqueries = [search_query] # ensures that we use the updated search query
     if flag_break_query:
         subqueries = break_query(search_query, o_client)
 
