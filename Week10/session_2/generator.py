@@ -46,6 +46,8 @@ python generator.py --query "sneakers" --database "myntra_shoes_db" --table-name
 
 import argparse
 from typing import Dict, List, Optional
+from dotenv import load_dotenv  # For loading API key from a .env file
+import os
 
 import torch
 from augmenter import detect_search_type, get_real_shoes_data
@@ -65,6 +67,7 @@ def setup_qwen_model(model_name: str = "Qwen/Qwen2.5-0.5B-Instruct") -> tuple:
 def setup_openai_client(api_key: str) -> OpenAI:
     """GENERATION: Setup OpenAI client for text generation."""
     if not api_key or api_key.strip() == "":
+        #api_key = os.getenv("OPENAI_API_KEY") #or userdata.get('OPENAI_API_KEY')
         raise ValueError("OpenAI API key is required")
 
     client = OpenAI(api_key=api_key)
@@ -257,12 +260,18 @@ if __name__ == "__main__":
 
     # Setup models
     tokenizer, model, openai_client = None, None, None
+    
+    use_dotenv =True
 
     try:
         if args.model_provider == "openai":
             if not args.openai_api_key:
-                print("❌ OpenAI API key is required for OpenAI models")
-                exit(1)
+                if use_dotenv:
+                    load_dotenv()  # Load environment variables from .env file
+                    args.openai_api_key = os.getenv("OPENAI_API_KEY")
+                else:
+                    print("❌ OpenAI API key is required for OpenAI models")
+                    exit(1)
             openai_client = setup_openai_client(args.openai_api_key)
             print("✅ OpenAI client setup successful")
         else:

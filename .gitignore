@@ -229,3 +229,6 @@ Week6_c1/8_CSV_Data.ipynb
 Week6_c1/9_JSON_Data.ipynb
 *.xlsx
 /Week6_c1
+/Week10/assignments/fashion_db
+/Week10/session_2/myntra_shoes_db
+.DS_Store

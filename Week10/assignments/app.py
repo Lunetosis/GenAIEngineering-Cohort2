@@ -1,5 +1,5 @@
 """
-SCRIPT 5/5: app.py - Gradio Web Interface for Shoe RAG Pipeline
+SCRIPT 5/5: app.py - Gradio Web Interface for Fashion RAG Pipeline
 
 Colab - https://colab.research.google.com/drive/1rq-ywjykHBw7xPXCmd3DmZdK6T9bhDtA?usp=sharing
 
@@ -42,12 +42,10 @@ import os
 from typing import Any, Dict, List, Optional
 
 import gradio as gr
-from generator import get_available_models
-from openai import OpenAI
-from rag_pipeline import run_complete_shoes_rag_pipeline_with_details
+from fashion_rag import get_available_models, run_fashion_rag_pipeline, \
+                        FashionItem, setup_fashion_database
 
-# Import components from other modules
-from retriever import MyntraShoesEnhanced, create_shoes_table_from_hf
+from openai import OpenAI
 
 from dotenv import load_dotenv  # For loading API key from a .env file
 
@@ -135,20 +133,16 @@ def gradio_rag_pipeline(
                 "",
                 [],
             )
-
+            
         # Run the RAG pipeline with detailed tracking
-        rag_result = run_complete_shoes_rag_pipeline_with_details(
-            database="myntra_shoes_db",
-            table_name="myntra_shoes_table",
-            schema=MyntraShoesEnhanced,
-            search_query=actual_query,
-            limit=3,
-            use_llm=True,
-            use_advanced_prompts=use_advanced_prompts,
+        rag_result = run_fashion_rag_pipeline(
+            query=actual_query,
+            database_path="fashion_db",
+            table_name="fashion_items",
+            schema=FashionItem,
             search_type=search_type,
-            model_provider=model_provider,
-            model_name=model_name,
-            openai_api_key=openai_api_key if model_provider == "openai" else None,
+            limit=3,
+            save_images = True
         )
 
         # Extract detailed step information
@@ -181,7 +175,7 @@ def gradio_rag_pipeline(
         results_details = []
 
         for i, result in enumerate(rag_result["results"], 1):
-            product_type = result.get("product_type", "Shoe")
+            product_type = result.get("product_type", "Garment")
             gender = result.get("gender", "Unisex")
             color = result.get("color", "Various colors")
             pattern = result.get("pattern", "Standard")
@@ -389,15 +383,15 @@ def create_gradio_app():
     }
     """
 
-    with gr.Blocks(css=css, title="👟 Shoe RAG Pipeline") as app:
+    with gr.Blocks(css=css, title="👟 Fashion RAG Pipeline") as app:
         # Header Section
         with gr.Row():
             with gr.Column(elem_classes=["header-section"]):
                 gr.HTML(
                     """
                 <div style="text-align: center;">
-                    <h1>👟 Multimodal Shoe RAG Pipeline</h1>
-                    <p>This demo showcases a complete <strong>Retrieval-Augmented Generation (RAG)</strong> pipeline for shoe recommendations and search.</p>
+                    <h1>👟 Multimodal Fashion RAG Pipeline</h1>
+                    <p>This demo showcases a complete <strong>Retrieval-Augmented Generation (RAG)</strong> pipeline for garment recommendations and search.</p>
                     <div style="display: flex; justify-content: center; gap: 25px; margin-top: 20px; flex-wrap: wrap;">
                         <div>🔍 <strong>Text Search</strong><br/>Natural language queries</div>
                         <div>🖼️ <strong>Image Search</strong><br/>Visual similarity matching</div>
@@ -416,13 +410,13 @@ def create_gradio_app():
 
                 query = gr.Textbox(
                     label="Text Query",
-                    placeholder="e.g., 'Recommend running shoes for men' or 'Show me casual sneakers'",
+                    placeholder="e.g., 'Recommend black evening dress' or 'Show me casual dress'",
                     lines=4,
                     max_lines=6,
                 )
 
                 image = gr.Image(
-                    label="Upload Shoe Image (for image search)", type="pil", height=220
+                    label="Upload Garment Image (for image search)", type="pil", height=220
                 )
 
                 with gr.Row():
@@ -515,7 +509,7 @@ def create_gradio_app():
         # Full width section for image gallery
         with gr.Row():
             with gr.Column(elem_classes=["gallery-section"]):
-                gr.HTML('<h3 class="section-header">🖼️ Retrieved Shoe Images</h3>')
+                gr.HTML('<h3 class="section-header">🖼️ Retrieved Garment Images</h3>')
                 image_gallery = gr.Gallery(
                     label="Search Results Gallery",
                     show_label=False,
@@ -608,7 +602,7 @@ if __name__ == "__main__":
                 self.sample_size = 500
                 self.host = "0.0.0.0"  # Use 0.0.0.0 for HF Spaces
                 self.port = 7860  # Standard port for HF Spaces
-                self.share = False  # HF Spaces handles sharing automatically
+                self.share = True  # HF Spaces handles sharing automatically
                 self.debug = False
 
         args = DefaultArgs()
@@ -626,7 +620,7 @@ if __name__ == "__main__":
 
         # Use argparse for local development
         parser = argparse.ArgumentParser(
-            description="Gradio Web Interface for Shoe RAG Pipeline"
+            description="Gradio Web Interface for Fashion RAG Pipeline"
         )
         parser.add_argument(
             "--setup-db",
@@ -660,11 +654,13 @@ if __name__ == "__main__":
     # Setup database if requested
     if args.setup_db:
         print("🔄 Setting up database from HuggingFace dataset...")
-        create_shoes_table_from_hf(
-            database="myntra_shoes_db",
-            table_name="myntra_shoes_table",
+        setup_fashion_database(
+            database_path="fashion_db",
+            table_name="fashion_items",
+            dataset_name ="tomytjandra/h-and-m-fashion-caption",
+            schema = FashionItem,
             sample_size=args.sample_size,
-            save_images=True,
+            images_dir="fashion_images",
         )
         print("✅ Database setup complete!")
 

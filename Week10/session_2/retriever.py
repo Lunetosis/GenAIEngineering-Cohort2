@@ -160,7 +160,7 @@ def create_shoes_table_from_hf(
 ) -> None:
     """Create vector database table with shoe data from Hugging Face dataset."""
 
-    db = lancedb.connect(database)
+    db =lancedb.connect(database) 
 
     if table_name in db and mode != "overwrite":
         print(f"Table {table_name} already exists")

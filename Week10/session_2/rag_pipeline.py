@@ -50,6 +50,8 @@ from generator import (
 )
 from openai import OpenAI
 from PIL import Image
+from dotenv import load_dotenv  # For loading API key from a .env file
+import os
 
 # Import components from other modules
 from retriever import MyntraShoesEnhanced, create_shoes_table_from_hf, run_shoes_search
@@ -118,10 +120,15 @@ def run_complete_shoes_rag_pipeline(
         print("🤖 GENERATION: Setting up LLM and generating response...")
 
         tokenizer, model, openai_client = None, None, None
+        use_dotenv =True
 
         if model_provider == "openai":
             if not openai_api_key:
-                raise ValueError("OpenAI API key is required for OpenAI models")
+                if use_dotenv:
+                    load_dotenv()  # Load environment variables from .env file
+                    args.openai_api_key = os.getenv("OPENAI_API_KEY")
+                else:
+                    raise ValueError("OpenAI API key is required for OpenAI models")
             openai_client = setup_openai_client(openai_api_key)
             print(f"   └─ OpenAI client setup with model: {model_name}")
         else:
@@ -278,12 +285,17 @@ def run_complete_shoes_rag_pipeline_with_details(
         generation_details += "=" * 50 + "\n"
         generation_details += f"🏭 Model Provider: {model_provider}\n"
         generation_details += f"🎯 Model Name: {model_name}\n"
-
+        
         tokenizer, model, openai_client = None, None, None
+        use_dotenv =True
 
         if model_provider == "openai":
             if not openai_api_key:
-                raise ValueError("OpenAI API key is required for OpenAI models")
+                if use_dotenv:
+                    load_dotenv()  # Load environment variables from .env file
+                    args.openai_api_key = os.getenv("OPENAI_API_KEY")
+                else:
+                    raise ValueError("OpenAI API key is required for OpenAI models")
             openai_client = setup_openai_client(openai_api_key)
             generation_details += f"✅ OpenAI client initialized\n"
             generation_details += f"🔑 API key: {'*' * (len(openai_api_key) - 8) + openai_api_key[-4:] if len(openai_api_key) > 8 else '****'}\n"

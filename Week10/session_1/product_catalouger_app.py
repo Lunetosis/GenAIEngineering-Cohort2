@@ -668,7 +668,7 @@ with gr.Blocks(title="Smart Product Cataloger") as app:
             # When no image is provided, shows upload interface
             # label: Text shown above upload area
             # height: Fixed pixel height for consistent layout
-            uploaded_image = gr.Image(label="Upload Product Image", height=400)
+            uploaded_image = gr.Image(label="Upload Product Image")#, height=400) #Claude: height parameter has been deprecated
 
             # Primary action button for direct image analysis
             # variant="primary": Blue/prominent styling for main action
