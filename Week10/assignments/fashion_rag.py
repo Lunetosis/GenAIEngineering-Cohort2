@@ -200,12 +200,6 @@ def search_fashion_items(
     """
     Search for fashion items using text or image query
 
-    TODO: Complete this function to:
-    1. Determine if query is text or image (auto-detection)
-    2. Connect to the vector database
-    3. Perform similarity search using CLIP embeddings
-    4. Return search results and detected search type
-
     Args:
         database_path: Path to LanceDB database
         table_name: Name of the table to search
@@ -387,12 +381,6 @@ def setup_llm_model(model_name: str = "Qwen/Qwen2.5-0.5B-Instruct") -> Tuple[Any
     """
     Set up LLM model and tokenizer
 
-    TODO: Complete this function to load the LLM model and tokenizer
-
-    STEPS TO IMPLEMENT:    
-    3. Configure model settings for GPU/CPU
-    5. Return tokenizer and model
-
     Args:
         model_name: Name of the model to load
 
@@ -406,6 +394,11 @@ def setup_llm_model(model_name: str = "Qwen/Qwen2.5-0.5B-Instruct") -> Tuple[Any
     tokenizer = AutoTokenizer.from_pretrained(model_name)
 
     # 2. Load model
+    # 3. Configure model settings for GPU/CPU
+    # model = AutoModelForCausalLM.from_pretrained(
+    #     model_name, torch.float16 if torch.cuda.is_available() else torch.float32,
+    #     device_map="auto" if torch.cuda.is_available() else None
+    # )
     model = AutoModelForCausalLM.from_pretrained(
         model_name, torch_dtype=torch.float32, device_map="cpu"
     )
@@ -414,6 +407,7 @@ def setup_llm_model(model_name: str = "Qwen/Qwen2.5-0.5B-Instruct") -> Tuple[Any
         tokenizer.pad_token = tokenizer.eos_token
 
     print("✅ LLM model loaded successfully")
+    # 5. Return tokenizer and model
     return tokenizer, model
 
 
@@ -453,6 +447,7 @@ def generate_fashion_response(
 
     # 4. Decode the response and clean it up
     full_response = tokenizer.decode(outputs[0], skip_special_tokens=True)
+    # Remove the original prompt from response
     response = full_response.replace(prompt, "").strip()
     # 5. Return the generated text
     return response
@@ -513,10 +508,6 @@ def run_fashion_rag_pipeline(
     """
     Run complete fashion RAG pipeline
 
-    TODO: Complete this function to orchestrate the entire pipeline:
-    3. GENERATION: Generate LLM response using the enhanced prompt
-    4. IMAGE STORAGE: Save retrieved images if requested
-
     This is the main function that ties everything together!
 
     PIPELINE PHASES:
@@ -540,7 +531,6 @@ def run_fashion_rag_pipeline(
 
     # PHASE 2: AUGMENTATION: Create enhanced prompt with retrieved context
     print("📝 PHASE 2: AUGMENTATION")
-    print("Actual search type:", actual_search_type)
     enhanced_prompt = create_fashion_prompt(query, results, actual_search_type)
     print(f"   Created enhanced prompt ({len(enhanced_prompt)} chars)")
 
@@ -560,7 +550,7 @@ def run_fashion_rag_pipeline(
         "search_type": actual_search_type
     }
 
-    # Save retrieved images if requested
+    # 4. IMAGE STORAGE: Save retrieved images if requested
     if save_images:
         saved_image_paths = save_retrieved_images(final_results)
         final_results["saved_image_paths"] = saved_image_paths
@@ -576,13 +566,6 @@ def run_fashion_rag_pipeline(
 def fashion_search_app(query):
     """
     Process fashion query and return response with images for Gradio
-
-    TODO: Complete this function to handle web app queries
-
-    STEPS TO IMPLEMENT:
-    
-    
-    
     """
 
     # 1. Check if query is provided
@@ -601,13 +584,14 @@ def fashion_search_app(query):
 
     # 3. Run RAG pipeline
     result = run_fashion_rag_pipeline(
-        query,
+        query = query,
         database_path = "fashion_db",
         table_name = "fashion_items",
         schema = FashionItem,
         search_type = "auto",
         limit = 3,
-        save_images = True)
+        save_images = False # Don't save images for web app
+        )
 
     # 4. Extract LLM response and images
     llm_response = result['response']
