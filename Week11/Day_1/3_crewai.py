@@ -1,3 +1,7 @@
+# Basic usage of crewai to create an agent and a task, then run the task with the agent using a crew.
+# Without LLM model
+# One agent, one task with a self defined tool (compound interest calculator)
+
 import os
 from dotenv import load_dotenv
 from crewai import Agent, Task, Crew, LLM
@@ -15,6 +19,7 @@ os.environ['OPENAI_BASE_URL'] = 'https://openrouter.ai/api/v1'
 
 from crewai.tools import tool
 
+# First way to declare a tool, using decorator
 # @tool("Compount Interest Calculator")
 def calculate_compound_interest_func(principal: float, rate: float, time: int, n: int = 12) -> str:
     """
@@ -37,7 +42,7 @@ def calculate_compound_interest_func(principal: float, rate: float, time: int, n
     Interest Earned: ${interest:,.2f}
     """
 
-# Create the tool
+# Second way to declare a functional tool, using tool() function
 calculate_compound_interest = tool("Calculate Compound Interest")(calculate_compound_interest_func)
 
 calculator = Agent(

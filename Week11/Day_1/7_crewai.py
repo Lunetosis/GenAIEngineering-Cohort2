@@ -1,3 +1,6 @@
+# Iterative crew.
+# Choosing model to use with LLM class
+# Tasks are setup as dependent on each other
 
 import os
 from dotenv import load_dotenv

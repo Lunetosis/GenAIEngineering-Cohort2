@@ -1,3 +1,8 @@
+# Usage of crewai to create several agents and tasks, then run the task with the agent using a crew.
+# Choosing model to use with LLM class
+# Only one agent (content planner) with tool (search tool)
+# Tasks are not setup as dependent on each other.
+# A manager was setup which is required for the hyerarchical process.
 
 import os
 from dotenv import load_dotenv

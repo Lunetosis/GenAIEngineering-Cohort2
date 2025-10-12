@@ -1,3 +1,7 @@
+# Basic usage of crewai to create an agent and a task, then run the task with the agent using a crew.
+# Choosing model to use with LLM class
+# One agent, one task with a tool (serper.dev search)
+
 import os
 from dotenv import load_dotenv
 from crewai import Agent, Task, Crew, LLM
@@ -8,6 +12,9 @@ load_dotenv()
 os.environ["OPENAI_API_KEY"] = os.getenv("OPEN_ROUTER_KEY")
 os.environ['OPENAI_API_BASE'] = 'https://openrouter.ai/api/v1'
 os.environ['OPENAI_BASE_URL'] = 'https://openrouter.ai/api/v1'
+os.environ['SERPER_API_KEY'] = os.getenv('SERPER_API_KEY')
+#seper_api_key_v = os.getenv('SERPER_API_KEY')
+#print("Serper API Key:", seper_api_key_v)
 
 llm = LLM(
         model='openai/gpt-4o',
@@ -34,7 +41,7 @@ research_agent = Agent(
 
 research_task = Task(
     description="""Conduct a comprehensive analysis of the latest developments in
-    Large Language Models (LLMs) and their applications in 2024. Your research should cover:
+    Large Language Models (LLMs) and their applications in 2024 and 2025. Your research should cover:
 
     1. **Technical Breakthroughs**: Latest architectural innovations, training methodologies,
        and performance improvements in LLMs

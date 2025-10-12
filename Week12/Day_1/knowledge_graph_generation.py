@@ -47,5 +47,5 @@ plt.figure(figsize=(12, 12))
 pos = nx.spring_layout(G, seed=42)  # for reproducible layout
 nx.draw(G, pos, with_labels=True, node_color=colors, node_size=50, font_size=6, edge_color='black', alpha=0.7)
 plt.title('IMDB Movies Knowledge Graph (Sample Data)')
-plt.savefig('knowledge_graph.png')
+plt.savefig('knowledge_graph_small.png')
 plt.show()

@@ -1,54 +1,55 @@
+import pandas as pd
 import networkx as nx
 import matplotlib.pyplot as plt
-import pandas as pd
 
-# Load the dataset
-filename = 'imdb_200.csv'
-data = pd.read_csv(filename)
+# Load the data into a DataFrame
+movie_data = pd.read_csv('imdb.csv').head(200)
 
-# Create a new graph
-G = nx.Graph()
+# Initialize a directed graph
+G = nx.DiGraph()
 
-# Iterate over each row in the DataFrame
-for _, row in data.iterrows():
-    movie = row['Title']
+# Add nodes and edges
+for index, row in movie_data.iterrows():
+    movie_title = row['Title']
     director = row['Director']
-    genres = str(row['Genre']).split(',')
-    actors = str(row['Actors']).split(', ')
+    genres = row['Genre'].split(',')
+    actors = row['Actors'].split(',')
     rating = row['Rating']
-
-    # Add nodes for movies, directors, genres, and actors
-    G.add_node(movie, node_type='movie', rating=rating)
-    G.add_node(director, node_type='director')
+    revenue = pd.to_numeric(row['Revenue (Millions)'], errors='coerce')
     
+    # Add movie node
+    G.add_node(movie_title, type='movie', rating=rating, revenue=revenue)
+
+    # Connect directors to movies
+    G.add_node(director, type='director')
+    G.add_edge(director, movie_title, weight=rating)
+
+    # Connect genres to movies
     for genre in genres:
-        G.add_node(genre, node_type='genre')    
-    
+        G.add_node(genre, type='genre')
+        G.add_edge(genre, movie_title, weight=rating)
+
+    # Connect actors to movies
     for actor in actors:
-        G.add_node(actor, node_type='actor')
+        G.add_node(actor.strip(), type='actor')
+        G.add_edge(actor.strip(), movie_title, weight=rating)
 
-    # Add edges between movie and director, genres, actors
-    G.add_edge(movie, director, weight=rating)
-    for genre in genres:
-        G.add_edge(movie, genre, weight=rating)
-    for actor in actors:
-        G.add_edge(movie, actor, weight=rating)
+# Define color map based on node types
+color_map = []
+for node in G:
+    if G.nodes[node]['type'] == 'movie':
+        color_map.append('green')
+    elif G.nodes[node]['type'] == 'director':
+        color_map.append('blue')
+    elif G.nodes[node]['type'] == 'genre':
+        color_map.append('orange')
+    else:
+        color_map.append('red')
 
-# Set node colors based on type
-color_map = {
-    'movie': 'lightblue',
-    'director': 'orange',
-    'genre': 'green',
-    'actor': 'purple'
-}
-
-colors = [color_map[G.nodes[node]['node_type']] for node in G.nodes]
-
-# Plot the graph
-plt.figure(figsize=(15, 15))
-pos = nx.spring_layout(G, k=0.5, iterations=50)  # Fruchterman-Reingold layout
-nx.draw(G, pos, with_labels=False, node_color=colors, node_size=50, edge_color='gray')
-nx.draw_networkx_labels(G, pos, {node: node for node in G.nodes if G.nodes[node]['node_type'] == 'movie'})
+# Drawing the graph
+plt.figure(figsize=(12, 12))
+pos = nx.spring_layout(G, k=0.15, iterations=20)
+nx.draw(G, pos, node_color=color_map, with_labels=True, font_size=8, node_size=500)
 plt.title('IMDB Movie Knowledge Graph')
-plt.savefig('knowledge_graph.png')
+plt.savefig('imdb_knowledge_graph.png')
 plt.show()

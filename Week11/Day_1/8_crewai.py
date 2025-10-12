@@ -1,3 +1,7 @@
+# Parallel processing crew. Parallel tasks with different agents are put in a list and allowed to run async.
+# A synthesis task is then run by a different agent to integrate all the findings.
+# Choosing model to use with LLM class
+
 import os
 from dotenv import load_dotenv
 from crewai import Agent, Task, Crew, LLM, Process

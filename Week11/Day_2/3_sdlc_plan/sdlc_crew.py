@@ -14,6 +14,7 @@ os.environ['HUGGINGFACEHUB_API_TOKEN'] = os.getenv('HF_TOKEN')
 os.environ['LITELLM_LOG'] = 'DEBUG'
 os.environ['OPENAI_API_BASE'] = 'https://openrouter.ai/api/v1'
 os.environ['OPENAI_BASE_URL'] = 'https://openrouter.ai/api/v1'
+os.environ["OPENAI_API_KEY_EMBEDDING"] = "" #disable embedding attempts
 
 
 @CrewBase
@@ -189,7 +190,7 @@ class SDLCDevelopmentCrew:
             tasks=self.tasks,
             process=Process.sequential,
             verbose=False,
-            memory=True,
+            memory=False,   # Disable ChromaDB memory for faster execution
             max_rpm=10,
             share_crew=True
         )

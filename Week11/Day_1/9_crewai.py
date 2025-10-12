@@ -1,3 +1,5 @@
+# Agent with RAG. Reading from a file using a tool and analyzing the content of the file.
+
 import os
 from dotenv import load_dotenv
 from crewai import Agent, Task, Crew, LLM, Process

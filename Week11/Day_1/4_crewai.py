@@ -1,3 +1,8 @@
+# Usage of crewai to create several agents and tasks, then run the task with the agent using a crew.
+# Choosing model to use with LLM class
+# Only one agent (research specialist) with tool (search tool)
+# Tasks are dependent on each other and to be completed by different agents on a specific order
+
 import os
 from dotenv import load_dotenv
 from crewai import Agent, Task, Crew, LLM

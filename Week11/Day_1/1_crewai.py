@@ -1,3 +1,7 @@
+# Basic usage of crewai to create an agent and a task, then run the task with the agent using a crew.
+# Using openrouter "default" model
+# One agent, one task
+
 # pip install dotenv crewai crewai-tools pypdf2
 
 import os
@@ -27,13 +31,13 @@ research_agent = Agent(
 
 research_task = Task(
     description="""Conduct a comprehensive analysis of the latest developments in
-    Large Language Models (LLMs) and their applications in 2024. Your research should cover:
+    Large Language Models (LLMs) and their applications in 2024 and 2025. Your research should cover:
 
     1. **Technical Breakthroughs**: Latest architectural innovations, training methodologies,
        and performance improvements in LLMs
 
     2. **Industry Applications**: Real-world implementations across different sectors
-       (healthcare, finance, education, etc.)
+       (healthcare, finance, education, music, arts, etc.)
 
     3. **Market Trends**: Investment patterns, major players, and emerging startups
        in the LLM space
@@ -99,7 +103,7 @@ research_crew = Crew(
     agents=[research_agent],
     tasks=[research_task],
     custom_llm_provider="openrouter",
-    verbose=True,
+    verbose=False,
 )
 
 result = research_crew.kickoff()

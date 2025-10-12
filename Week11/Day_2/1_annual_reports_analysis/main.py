@@ -13,9 +13,11 @@ import os
 import pickle
 import hashlib
 from pathlib import Path
-from langchain.vectorstores import FAISS as LangchainFAISS
+#from langchain.vectorstores import FAISS as LangchainFAISS
+from langchain_community.vectorstores import FAISS as LangchainFAISS
 from langchain.docstore.document import Document
-from langchain.docstore.in_memory import InMemoryDocstore
+#from langchain.docstore.in_memory import InMemoryDocstore
+from langchain_community.docstore.in_memory import InMemoryDocstore
 from pydantic import BaseModel, Field
 import pandas as pd
 from dotenv import load_dotenv
@@ -30,7 +32,7 @@ warnings.filterwarnings('ignore')
 # Load environment variables
 load_dotenv()
 
-os.environ["OPENAI_API_KEY"] = os.getenv("OPEN_ROUTER_KEY")
+os.environ["OPENAI_API_KEY"] = os.getenv("OPEN_ROUTER_KEY") # Use OpenRouter key for OpenAI API otherwise some libs may complain
 os.environ["SERPER_API_KEY"] = os.getenv("SERPER_API_KEY")
 os.environ['HUGGINGFACEHUB_API_TOKEN'] = os.getenv('HF_TOKEN')
 os.environ['LITELLM_LOG'] = 'DEBUG'

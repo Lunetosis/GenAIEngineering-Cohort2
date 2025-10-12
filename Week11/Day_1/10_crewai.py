@@ -1,3 +1,5 @@
+## Human-in-the-loop crew: task requires human input before completion (human_input=True in Task)
+
 import os
 from dotenv import load_dotenv
 from crewai import Agent, Task, Crew, LLM

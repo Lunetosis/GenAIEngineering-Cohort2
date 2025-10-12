@@ -1,3 +1,7 @@
+# Usage of crewai to create several agents and tasks, then run the task with the agent using a crew.
+# Choosing model to use with LLM class
+# Only one agent (content planner) with tool (search tool)
+# Tasks are not setuo as dependent, but a sequential process is used to complete them in order
 
 import os
 from dotenv import load_dotenv

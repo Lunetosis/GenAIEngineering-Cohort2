@@ -23,7 +23,7 @@ business_analyst:
   tools: []
   max_iter: 3
   max_execution_time: 600
-  allow_delegation: true
+  allow_delegation: false
 
 software_architect:
   role: "Principal Software Architect"
@@ -37,7 +37,7 @@ software_architect:
   tools: []
   max_iter: 3
   max_execution_time: 600
-  allow_delegation: true
+  allow_delegation: false
 
 technical_lead:
   role: "Senior Technical Lead"
@@ -51,7 +51,7 @@ technical_lead:
   tools: []
   max_iter: 3
   max_execution_time: 600
-  allow_delegation: true
+  allow_delegation: false
 
 api_designer:
   role: "Senior API Designer"
@@ -65,7 +65,7 @@ api_designer:
   tools: []
   max_iter: 3
   max_execution_time: 600
-  allow_delegation: true
+  allow_delegation: false
 
 ui_ux_designer:
   role: "Senior UI/UX Designer"
@@ -79,7 +79,7 @@ ui_ux_designer:
   tools: []
   max_iter: 3
   max_execution_time: 600
-  allow_delegation: true
+  allow_delegation: false
 
 quality_assurance_lead:
   role: "Senior QA Lead"
@@ -93,4 +93,4 @@ quality_assurance_lead:
   tools: []
   max_iter: 3
   max_execution_time: 600
-  allow_delegation: true
+  allow_delegation: false
